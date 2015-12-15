@@ -52,13 +52,19 @@ def webhook():
 
     """
 
-    # Use the API client to convert from a webhook to an API object. An API
-    #   object is just a Python dict with some extra methods.
-    api_object = eventbrite.webhook_to_object(request)
+    try:
+        # Use the API client to convert from a webhook to an API object. An API
+        #   object is just a Python dict with some extra methods.
+        api_object = eventbrite.webhook_to_object(request)
 
-    # Use pusher to add content to to the HTML page.
-    p['webhooks'].trigger("Attendee", api_object)
-    return ""
+        # Use pusher to add content to to the HTML page.
+        #p['webhooks'].trigger("Attendee", api_object)
+        p.trigger(u'webhooks', u'Attendee', api_object)
+    except Exception, e:
+        import traceback
+        print traceback.format_exc()
+        return traceback.format_exc()
+    return "weird"
 
 
 if __name__ == '__main__':
